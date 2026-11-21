@@ -1,0 +1,125 @@
+# Resource inventory and sensitivity labels for the fictional SensorHub repository.
+# Control plane: the agent tools can never read or write anything under .specguard/.
+# Labels, from least to most sensitive: public, internal, confidential, secret.
+
+[defaults]
+unlisted_file_label = "confidential"   # files nobody classified are treated as sensitive
+unlisted_table_label = "confidential"
+database = "data/sensorhub.db"
+control_plane = [".specguard/**"]
+protected_write = ["specs/**", "kb/**", "tools/**"]
+datastores = ["data/**"]               # reachable only through query_db, never as raw files
+
+# First matching rule wins. Knowledge-base files take the label in their front matter.
+[[files]]
+pattern = "README.md"
+label = "public"
+kind = "docs"
+
+[[files]]
+pattern = "firmware/src/**"
+label = "internal"
+kind = "source"
+
+[[files]]
+pattern = "firmware/tests/**"
+label = "internal"
+kind = "test"
+
+[[files]]
+pattern = "firmware/Makefile"
+label = "internal"
+kind = "build"
+
+[[files]]
+pattern = "tools/**"
+label = "internal"
+kind = "tool"
+
+[[files]]
+pattern = "docs/**"
+label = "internal"
+kind = "docs"
+
+[[files]]
+pattern = "config/device_config.toml"
+label = "internal"
+kind = "config"
+
+[[files]]
+pattern = "config/production_endpoints.toml"
+label = "confidential"
+kind = "config"
+
+[[files]]
+pattern = "secrets/**"
+label = "secret"
+kind = "credential"
+
+[[files]]
+pattern = "specs/**"
+label = "internal"
+kind = "spec"
+
+[[files]]
+pattern = "data/**"
+label = "secret"
+kind = "datastore"
+
+[[files]]
+pattern = ".specguard/**"
+label = "secret"
+kind = "control"
+
+# Database labels. A column label can only raise, never lower, its table's label.
+[db.tables.customers]
+label = "confidential"
+
+[db.tables.devices]
+label = "internal"
+columns = { customer_id = "confidential" }
+
+[db.tables.sensor_readings]
+label = "internal"
+
+[db.tables.calibration]
+label = "internal"
+columns = { technician = "confidential" }
+
+[db.tables.alarm_events]
+label = "internal"
+
+[db.tables.maintenance_notes]
+label = "internal"
+columns = { author = "confidential" }
+
+[db.tables.api_tokens]
+label = "secret"
+
+# Components map a name used in task specs to the resources that belong to it.
+[components."firmware.filter"]
+files = ["firmware/src/filter.c", "firmware/src/filter.h", "firmware/tests/test_main.c", "firmware/Makefile"]
+kb_topics = ["filtering", "coding-standard"]
+actions = ["unit-test", "style-check"]
+
+[components."firmware.frame"]
+files = ["firmware/src/frame.c", "firmware/src/frame.h", "firmware/tests/test_main.c", "firmware/Makefile"]
+kb_topics = ["protocol", "coding-standard"]
+actions = ["unit-test", "style-check"]
+
+[components."firmware.alarm"]
+files = ["firmware/src/alarm.c", "firmware/src/alarm.h", "firmware/tests/test_main.c", "firmware/Makefile"]
+kb_topics = ["alarms", "coding-standard"]
+actions = ["unit-test", "style-check"]
+
+[components."config.device"]
+files = ["config/device_config.toml", "docs/config_reference.md"]
+kb_topics = ["configuration"]
+
+[components."data.calibration"]
+tables = ["calibration(device_id, sensor_type, offset_c, gain, calibrated_on)", "sensor_readings(device_id, ts, sensor_type, raw_value)"]
+kb_topics = ["qa-data"]
+
+[components."data.alarms"]
+tables = ["alarm_events(*)", "devices(device_id, model, firmware_version)"]
+kb_topics = ["alarms", "qa-data"]

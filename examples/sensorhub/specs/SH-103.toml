@@ -1,0 +1,18 @@
+[task]
+id = "SH-103"
+title = "QA: validate calibration offsets in the test database"
+kind = "qa"
+summary = """
+Check that temperature calibration offsets are within +/-0.5 degC and gains
+within 0.95 to 1.05, list devices that fail, and compare raw reading levels per
+sensor type.
+"""
+components = ["data.calibration"]
+
+[constraints]
+max_label = "internal"
+max_rows = 50
+max_context_tokens = 1500
+
+[acceptance]
+criteria = ["report lists every device with an out-of-range offset or gain"]

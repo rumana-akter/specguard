@@ -1,0 +1,25 @@
+[task]
+id = "SH-101"
+title = "Fix moving-average sum overflow for long windows"
+kind = "development"
+summary = """
+With a 64-sample window and temperatures around 80.0 degC the moving-average
+sum overflows its 16-bit accumulator and the filter returns wrong values.
+Widen the accumulator, keep the public API unchanged and add a regression test.
+"""
+components = ["firmware.filter"]
+
+[access]
+write = ["firmware/src/filter.c", "firmware/src/filter.h", "firmware/tests/test_main.c"]
+
+[constraints]
+max_label = "internal"
+max_rows = 20
+max_context_tokens = 2000
+
+[acceptance]
+criteria = [
+  "filter_push returns 800 after 64 pushes of 800 with window 64",
+  "existing unit tests still pass",
+  "style check passes",
+]

@@ -1,0 +1,11 @@
+{
+  "python": "3.12.13",
+  "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with",
+  "actions_executed": true,
+  "decision_bench_us": {
+    "unrestricted": 5.074,
+    "static": 5.994,
+    "spec": 4.9
+  },
+  "generated_utc": "2026-11-21T18:43:07Z"
+}

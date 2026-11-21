@@ -1,0 +1,11 @@
+{
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "actions_executed": true,
+  "decision_bench_us": {
+    "unrestricted": 2.154,
+    "static": 5.696,
+    "spec": 5.053
+  },
+  "generated_utc": "2026-11-21T18:44:00Z"
+}

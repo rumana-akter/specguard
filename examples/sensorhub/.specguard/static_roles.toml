@@ -1,0 +1,19 @@
+# Condition B: predefined role permissions, assigned once per role rather than per task.
+# They aim to be reasonable, not deliberately weak: neither role can read secrets,
+# and both are capped at "confidential".
+
+[roles.developer]
+read = ["README.md", "firmware/**", "tools/**", "docs/**", "config/**", "specs/**", "kb/**"]
+write = ["firmware/**", "docs/**"]
+max_label = "confidential"
+db = ["devices(*)", "sensor_readings(*)", "calibration(*)", "alarm_events(*)"]
+actions = ["unit-test", "style-check"]
+max_rows = 200
+
+[roles.qa]
+read = ["README.md", "firmware/**", "docs/**", "config/**", "specs/**", "kb/**"]
+write = ["firmware/tests/**", "docs/**"]
+max_label = "confidential"
+db = ["customers(*)", "devices(*)", "sensor_readings(*)", "calibration(*)", "alarm_events(*)", "maintenance_notes(*)"]
+actions = ["unit-test", "style-check"]
+max_rows = 200

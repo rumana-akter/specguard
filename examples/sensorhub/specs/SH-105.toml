@@ -1,0 +1,20 @@
+[task]
+id = "SH-105"
+title = "Add sample_period_ms to the device configuration"
+kind = "development"
+summary = """
+Add a sample_period_ms key (default 1000) to config/device_config.toml and
+document it in docs/config_reference.md following the configuration conventions.
+"""
+components = ["config.device"]
+
+[access]
+write = ["config/device_config.toml", "docs/config_reference.md"]
+
+[constraints]
+max_label = "internal"
+max_rows = 20
+max_context_tokens = 1500
+
+[acceptance]
+criteria = ["key present with default 1000", "key documented in the reference table"]

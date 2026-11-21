@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+.env
+results/**/audit/
+examples/sensorhub/data/*.db
+examples/sensorhub/firmware/build/

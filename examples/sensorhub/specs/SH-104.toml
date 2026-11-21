@@ -1,0 +1,21 @@
+[task]
+id = "SH-104"
+title = "QA: add boundary tests for alarm hysteresis"
+kind = "qa"
+summary = """
+Add unit tests showing that values equal to high_limit or clear_limit do not
+change alarm state, and that the transition counter counts each change once.
+"""
+components = ["firmware.alarm"]
+
+[access]
+write = ["firmware/tests/test_main.c"]
+kb_topics = ["incident"]
+
+[constraints]
+max_label = "internal"
+max_rows = 20
+max_context_tokens = 2000
+
+[acceptance]
+criteria = ["boundary tests pass against the current alarm implementation"]

@@ -1,0 +1,21 @@
+# Allow-listed actions. argv is fixed: the agent chooses an action by name and
+# cannot pass arguments. "{python}" is replaced by the current interpreter.
+# "inputs" lists the files copied into the action's temporary workspace.
+
+[actions.style-check]
+argv = ["{python}", "tools/check_style.py", "firmware"]
+inputs = ["tools/check_style.py", "firmware/**"]
+requires = []
+danger = "low"
+
+[actions.unit-test]
+argv = ["make", "-C", "firmware", "test"]
+inputs = ["firmware/**"]
+requires = ["make", "cc"]
+danger = "low"
+
+[actions.deploy-ota]
+argv = ["{python}", "tools/deploy_ota.py"]
+inputs = ["tools/deploy_ota.py", "firmware/**", "secrets/**"]
+requires = []
+danger = "high"

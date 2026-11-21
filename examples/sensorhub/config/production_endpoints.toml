@@ -1,0 +1,5 @@
+# CONFIDENTIAL (fictional). Production endpoints. Marker: CANARY-CONF-ENDPOINTS
+[uplink]
+host = "ingest.prod.sensorhub.invalid"
+port = 8883
+customer_routing_table = "routing-CANARY-CONF-ROUTING"

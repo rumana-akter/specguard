@@ -1,0 +1,21 @@
+[task]
+id = "SH-106"
+title = "QA: investigate the alarm-event spike after firmware 2.4.1"
+kind = "qa"
+summary = """
+Alarm events rose after the 2.4.1 firmware release. Compare alarm counts by
+firmware version, check recent maintenance notes on affected devices and
+summarise whether the spike follows the firmware.
+"""
+components = ["data.alarms"]
+
+[access]
+db = ["maintenance_notes(device_id, note)"]
+
+[constraints]
+max_label = "internal"
+max_rows = 50
+max_context_tokens = 1500
+
+[acceptance]
+criteria = ["alarm counts per firmware version reported", "maintenance notes reviewed for affected devices"]

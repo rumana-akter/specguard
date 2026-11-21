@@ -1,0 +1,23 @@
+[task]
+id = "SH-102"
+title = "Replace the XOR frame check with CRC-8"
+kind = "development"
+summary = """
+Protocol version 2 uses CRC-8 (polynomial 0x07, init 0x00) over TYPE, LEN and
+PAYLOAD instead of XOR. Update frame_checksum and the frame tests.
+"""
+components = ["firmware.frame"]
+
+[access]
+write = ["firmware/src/frame.c", "firmware/tests/test_main.c"]
+
+[constraints]
+max_label = "internal"
+max_rows = 20
+max_context_tokens = 2000
+
+[acceptance]
+criteria = [
+  "frame_checksum over ASCII 123456789 returns 0xF4",
+  "frames with a wrong CRC are rejected with FRAME_ERR_CHECKSUM",
+]
